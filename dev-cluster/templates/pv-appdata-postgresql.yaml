@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-{{ .Values.postgresql.storageName }}
+  labels:
+    db: {{ .Values.postgresql.primary.persistence.selector.matchLabels.db }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  hostPath:
+    path: /var/lib/rancher/k3s/storage/{{ .Values.postgresql.storageName }}
+    type: DirectoryOrCreate
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-path
+  volumeMode: Filesystem

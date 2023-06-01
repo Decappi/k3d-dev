@@ -1,0 +1,19 @@
+global:
+  dbDependencyName: postgresql
+  postgresql:
+    auth:
+      postgresPassword: password
+
+postgresql:
+  storageName: appdata-postgresql
+  auth:
+    database: appdata
+  primary:
+    service:
+      type: NodePort
+      nodePorts:
+        postgresql: 30433
+    persistence:
+      selector:
+        matchLabels:
+          db: appdata

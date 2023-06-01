@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-alpine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpine
+  template:
+    metadata:
+      labels:
+        app: alpine
+    spec:
+      containers:
+        - name: alpine-container
+          image: alpine
+          env:
+            - name: DATABASE_ADDRESS
+              value: {{ .Release.Name }}-{{ .Values.global.dbDependencyName }}
+          command:
+            - 'tail'
+            - '-F'
+            - 'anything'
