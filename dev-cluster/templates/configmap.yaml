@@ -4,4 +4,4 @@ metadata:
   name: {{ .Release.Name }}-configmap
 data:
   myvalue: "Hello World"
-{{/*  deps: "{{ join " " .Chart.Dependencies }}"*/}}
+  deps: "{{ join " " .Chart.Dependencies }}"

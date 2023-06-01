@@ -2,8 +2,8 @@
 set -eux
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-PROJECT_DIR=$SCRIPT_DIR/..
-CLUSTER_NAME=dev-cluster
+source $SCRIPT_DIR/common.sh
+
 DB_STORAGE_NAME=appdata-postgresql
 
 k3d cluster delete $CLUSTER_NAME
@@ -14,8 +14,7 @@ k3d registry create registry.localhost --port 5000 || true
 #-v $PROJECT_DIR:/home/dev \
 
 # creating storage folders and their permissions (When created by PersistentVolume, no 777 permissions are set)
-mkdir -p $PROJECT_DIR/storage/$DB_STORAGE_NAME
-chmod 0777 $PROJECT_DIR/storage/$DB_STORAGE_NAME
+mkdir -m 0777 -p $PROJECT_DIR/storage/$DB_STORAGE_NAME
 
 k3d cluster create $CLUSTER_NAME \
 -p 443:443@loadbalancer \
